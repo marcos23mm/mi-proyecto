@@ -1,20 +1,30 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ProductoController;
+use App\Models\Producto;
 
 Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
 
+Route::get('/producto', function () {
+    $producto = Producto::with('imagenes')->first();
+    return view('producto', compact('producto'));
+})->name('producto');
 
+// Grupo de rutas admin para gestión de productos (requiere estar autenticado)
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/productos', [ProductoController::class, 'index'])->name('admin.productos.index');
+    Route::get('/productos/create', [ProductoController::class, 'create'])->name('admin.productos.create');
+    Route::post('/productos', [ProductoController::class, 'store'])->name('admin.productos.store');
+    Route::get('/productos/{producto}/edit', [ProductoController::class, 'edit'])->name('admin.productos.edit');
+    Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name('admin.productos.update');
+    Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('admin.productos.destroy');
+});
+
+// Dashboard y perfil
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

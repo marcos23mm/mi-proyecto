@@ -1,4 +1,7 @@
 @import './custom.css';
+@import './login.css';
+@import './register.css';
+@import './app.css';
 
 @tailwind base;
 @tailwind components;

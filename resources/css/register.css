@@ -1,0 +1,7 @@
+body.register {
+    background-image: url('../../public/images/logo-fondo.png'); /* asegúrate de que la imagen está en public/img */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+}
